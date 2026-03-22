@@ -1,0 +1,100 @@
+{
+  "version": "1.0.0",
+  "configVersion": 1,
+  "providers": {
+    "openai": {
+      "type": "openai",
+      "apiKey": "${OPENAI_API_KEY}",
+      "models": ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-3.5-turbo"]
+    },
+    "anthropic": {
+      "type": "anthropic",
+      "apiKey": "${ANTHROPIC_API_KEY}",
+      "models": ["claude-3-5-sonnet-latest", "claude-3-opus-latest", "claude-3-haiku-20240307"]
+    },
+    "ollama": {
+      "type": "ollama",
+      "baseUrl": "http://localhost:11434",
+      "models": ["llama3", "llama3:70b", "mistral", "codellama", "phi3"]
+    }
+  },
+  "channels": {
+    "telegram": {
+      "type": "telegram",
+      "enabled": true,
+      "config": {
+        "botToken": "${TELEGRAM_BOT_TOKEN}"
+      }
+    },
+    "discord": {
+      "type": "discord",
+      "enabled": false,
+      "config": {
+        "botToken": "${DISCORD_BOT_TOKEN}"
+      }
+    },
+    "github": {
+      "type": "github",
+      "enabled": true,
+      "config": {
+        "webhookSecret": "${GITHUB_WEBHOOK_SECRET}"
+      }
+    }
+  },
+  "agents": {
+    "research-assistant": {
+      "id": "research-assistant",
+      "name": "Research Assistant",
+      "description": "Helps with research and information gathering",
+      "provider": "openai",
+      "model": "gpt-4o",
+      "systemPrompt": "You are a helpful research assistant. You help users find, analyze, and summarize information from various sources.\n\nGuidelines:\n- Always cite your sources\n- Be thorough but concise\n- Ask clarifying questions when needed",
+      "temperature": 0.7,
+      "maxTokens": 4096,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    "code-reviewer": {
+      "id": "code-reviewer",
+      "name": "Code Reviewer",
+      "description": "Reviews code and provides suggestions",
+      "provider": "anthropic",
+      "model": "claude-3-5-sonnet-latest",
+      "systemPrompt": "You are an expert code reviewer. You review pull requests and provide constructive feedback on code quality, security, performance, and best practices.",
+      "temperature": 0.3,
+      "maxTokens": 8192,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  "automations": [
+    {
+      "id": "morning-digest",
+      "name": "Morning Digest",
+      "description": "Send daily summary to Telegram",
+      "trigger": {
+        "type": "schedule",
+        "config": {
+          "schedule": "0 8 * * *",
+          "timezone": "local"
+        }
+      },
+      "actions": [
+        {
+          "type": "ai-complete",
+          "config": {
+            "prompt": "Summarize the latest news and updates."
+          }
+        }
+      ],
+      "enabled": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "meta": {
+    "lastModified": "2024-01-01T00:00:00.000Z",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "mode": "local-only"
+  }
+}

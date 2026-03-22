@@ -1,0 +1,52 @@
+{
+  "name": "altos-cli",
+  "version": "0.2.0",
+  "description": "Altos CLI - Lightweight, CLI-first AI agent platform",
+  "type": "module",
+  "bin": {
+    "altos": "./dist/bin/index.js"
+  },
+  "scripts": {
+    "dev": "tsx watch src/bin/index.ts",
+    "build": "tsc && npm run copy-types",
+    "copy-types": "node --input-type=module -e \"import { copyFileSync } from 'fs'; copyFileSync('src/types/index.ts', 'dist/types/index.d.ts')\"",
+    "start": "node dist/bin/index.js",
+    "test": "vitest",
+    "lint": "eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "agent",
+    "openai",
+    "anthropic",
+    "altos",
+    "automation"
+  ],
+  "author": "Altos Team",
+  "license": "MIT",
+  "dependencies": {
+    "@altos/shared": "*",
+    "axios": "^1.6.7",
+    "chalk": "^5.3.0",
+    "cli-boxes": "^1.0.0",
+    "commander": "^12.0.0",
+    "inquirer": "^9.2.15",
+    "open": "^10.1.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^20.11.19",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altos/altos-cli"
+  }
+}

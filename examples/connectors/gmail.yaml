@@ -1,0 +1,157 @@
+# Gmail Connector Configuration
+# Type: Reference example (not runtime config)
+# Docs: https://altos.ai/docs/connectors/gmail
+#
+# NOTE: This is a reference configuration showing the full connector schema.
+# Runtime channel configs are stored in ~/.altos/config.json and use the
+# ChannelConfig interface defined in @altos/shared.
+
+connector:
+  type: gmail
+  name: altos-gmail-workflow
+  enabled: true
+
+gmail:
+  credentials_path: ./secrets/gmail-credentials.json
+  token_path: ./secrets/gmail-token.json
+  topic_name: projects/altos-agent/topics/gmail-push
+
+  scopes:
+    - https://www.googleapis.com/auth/gmail.readonly
+    - https://www.googleapis.com/auth/gmail.send
+    - https://www.googleapis.com/auth/gmail.modify
+    - https://www.googleapis.com/auth/gmail.labels
+
+watch:
+  enabled: true
+  topic_project: altos-agent
+  topic_name: gmail-watch
+  label_filters:
+    - INBOX
+    - UNREAD
+
+settings:
+  display_name: "Altos Agent"
+  signature: |
+    
+    ---
+    Managed by [Altos](https://altos.ai) AI Agent Platform
+  reply_to: agents@yourdomain.com
+
+filters:
+  inbox_rules:
+    - name: support-tickets
+      conditions:
+        from: "*@customers.com"
+        subject: "^\\[Support\\]"
+        has_attachment: false
+      actions:
+        - add_label: Support
+        - flag: important
+        - trigger_agent: support-triage
+
+    - name: urgent-alerts
+      conditions:
+        from:
+          - "alerts@system1.com"
+          - "alerts@system2.com"
+        subject: "URGENT|CRITICAL|ALERT"
+      actions:
+        - add_label: Urgent
+        - mark_star: true
+        - trigger_agent: alert-responder
+        - notify_slack: "#alerts"
+
+    - name: weekly-digest
+      conditions:
+        subject: "^Weekly Digest"
+        from: "digest@company.com"
+      actions:
+        - archive: true
+        - trigger_agent: digest-processor
+
+auto_response:
+  enabled: true
+  
+  rules:
+    - name: vacation-autoreply
+      conditions:
+        label: Vacation
+        forward_to: backup@yourdomain.com
+      response:
+        subject: "Re: {{subject}}"
+        body: |
+          Thank you for your email. I'm currently out of the office with limited access to email.
+          
+          I'll respond to your message upon my return on {{return_date}}.
+          
+          For urgent matters, please contact {{backup_contact}}.
+          
+          Best regards
+
+    - name: new-lead-response
+      conditions:
+        subject: "New Lead from.*"
+        not_label: Replied
+      response:
+        subject: "Re: {{subject}}"
+        body: |
+          Thank you for reaching out! We've received your inquiry and a team member will be in touch within 24 hours.
+          
+          In the meantime, feel free to learn more about our services at https://example.com.
+          
+          Best regards,
+          The Team
+
+  throttle:
+    max_auto_replies_per_day: 50
+    respect_out_of_office: true
+    check_previous_replies: true
+
+sending:
+  daily_limit: 100
+  burst_limit: 10
+  burst_window: 60  # seconds
+
+  signatures:
+    standard: |
+      
+      ---
+      Best regards,
+      The Altos Team
+    sales: |
+      
+      ---
+      🚀 Sales Team
+      📞 +1-555-0123
+      💬 https://slack.company.com/sales
+    support: |
+      
+      ---
+      💬 Support Team
+      🕐 Mon-Fri 9am-6pm EST
+      📧 support@company.com
+
+threads:
+  auto_archive_after_days: 30
+  keep_starred: true
+  keep_important: true
+
+reports:
+  daily_summary:
+    enabled: true
+    recipients:
+      - admin@yourdomain.com
+    include:
+      - messages_processed
+      - auto_replies_sent
+      - threads_created
+      - priority_items
+
+monitoring:
+  log_all_emails: false
+  log_automated_actions: true
+  metrics:
+    - inbox_count
+    - unread_count
+    - auto_reply_count

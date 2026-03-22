@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #0a0a0f 0%, #12121a 100%);
+  min-height: 100vh;
+  color: #e4e4e7;
+}
+
+@layer base {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #12121a;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #2a2a3a;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3a3a4a;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-glass-bg backdrop-blur-xl border border-glass-border rounded-2xl;
+    background: linear-gradient(135deg, rgba(26, 26, 36, 0.9) 0%, rgba(18, 18, 26, 0.95) 100%);
+  }
+  
+  .glass-card-hover {
+    @apply glass-card transition-all duration-200;
+  }
+  
+  .glass-card-hover:hover {
+    @apply border-indigo-500/30 shadow-glow;
+    background: linear-gradient(135deg, rgba(30, 30, 45, 0.95) 0%, rgba(22, 22, 32, 0.98) 100%);
+  }
+  
+  .btn-primary {
+    @apply px-4 py-2 rounded-xl font-medium transition-all duration-200;
+    @apply bg-gradient-to-r from-indigo-500 to-purple-500 text-white;
+    @apply hover:from-indigo-600 hover:to-purple-600;
+    @apply shadow-glow-sm hover:shadow-glow;
+  }
+  
+  .btn-secondary {
+    @apply px-4 py-2 rounded-xl font-medium transition-all duration-200;
+    @apply bg-altos-card border border-altos-border text-altos-text;
+    @apply hover:bg-altos-border hover:border-indigo-500/30;
+  }
+  
+  .btn-ghost {
+    @apply px-4 py-2 rounded-xl font-medium transition-all duration-200;
+    @apply text-altos-muted hover:text-altos-text hover:bg-glass-hover;
+  }
+  
+  .btn-danger {
+    @apply px-4 py-2 rounded-xl font-medium transition-all duration-200;
+    @apply bg-red-500/10 text-red-400 border border-red-500/30;
+    @apply hover:bg-red-500/20 hover:border-red-500/50;
+  }
+  
+  .input {
+    @apply w-full px-4 py-3 rounded-xl transition-all duration-200;
+    @apply bg-altos-bg border border-altos-border text-altos-text;
+    @apply focus:outline-none focus:border-indigo-500/50 focus:ring-2 focus:ring-indigo-500/20;
+  }
+  
+  .input-error {
+    @apply border-red-500/50 focus:border-red-500 focus:ring-red-500/20;
+  }
+  
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-success {
+    @apply bg-green-500/10 text-green-400 border border-green-500/30;
+  }
+  
+  .badge-warning {
+    @apply bg-yellow-500/10 text-yellow-400 border border-yellow-500/30;
+  }
+  
+  .badge-error {
+    @apply bg-red-500/10 text-red-400 border border-red-500/30;
+  }
+  
+  .badge-info {
+    @apply bg-blue-500/10 text-blue-400 border border-blue-500/30;
+  }
+  
+  .badge-neutral {
+    @apply bg-altos-border text-altos-muted;
+  }
+  
+  .status-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+  
+  .status-dot-success {
+    @apply bg-green-400 shadow-success;
+  }
+  
+  .status-dot-warning {
+    @apply bg-yellow-400 shadow-warning;
+  }
+  
+  .status-dot-error {
+    @apply bg-red-400 shadow-error;
+  }
+  
+  .status-dot-neutral {
+    @apply bg-gray-400;
+  }
+  
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200;
+    @apply text-altos-muted hover:text-altos-text hover:bg-glass-hover;
+  }
+  
+  .sidebar-link-active {
+    @apply bg-indigo-500/10 text-indigo-400 border border-indigo-500/30;
+  }
+  
+  .section-title {
+    @apply text-lg font-semibold text-altos-text;
+  }
+  
+  .empty-state {
+    @apply flex flex-col items-center justify-center py-16 text-center;
+  }
+  
+  .empty-state-icon {
+    @apply w-16 h-16 rounded-2xl bg-altos-card flex items-center justify-center text-3xl mb-4;
+  }
+  
+  .empty-state-title {
+    @apply text-lg font-medium text-altos-text mb-2;
+  }
+  
+  .empty-state-description {
+    @apply text-sm text-altos-muted max-w-md mb-6;
+  }
+  
+  .card-grid {
+    @apply grid gap-4;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+  
+  .metric-card {
+    @apply glass-card p-5;
+  }
+  
+  .metric-value {
+    @apply text-3xl font-bold text-altos-text;
+  }
+  
+  .metric-label {
+    @apply text-sm text-altos-muted mt-1;
+  }
+  
+  .table {
+    @apply w-full;
+  }
+  
+  .table-row {
+    @apply border-b border-altos-border last:border-0;
+  }
+  
+  .table-cell {
+    @apply px-4 py-3 text-sm;
+  }
+  
+  .table-header {
+    @apply px-4 py-3 text-left text-xs font-medium text-altos-muted uppercase tracking-wider;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400;
+  }
+  
+  .border-glow {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  }
+}

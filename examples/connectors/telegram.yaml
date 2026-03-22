@@ -1,0 +1,83 @@
+# Telegram Connector Configuration
+# Type: Reference example (not runtime config)
+# Docs: https://altos.ai/docs/connectors/telegram
+#
+# NOTE: This is a reference configuration showing the full connector schema.
+# Runtime channel configs are stored in ~/.altos/config.json and use the
+# ChannelConfig interface defined in @altos/shared.
+
+connector:
+  type: telegram
+  name: production-bot
+  enabled: true
+
+telegram:
+  bot_token: ${TELEGRAM_BOT_TOKEN}
+  parse_mode: HTML
+  disable_web_preview: false
+
+polling:
+  enabled: true
+  limit: 100
+  timeout: 3600
+  drop_pending_updates: false
+
+webhook:
+  enabled: false
+  # Set to true and configure below for production
+  secret_token: ${TELEGRAM_WEBHOOK_SECRET}
+
+channels:
+  default:
+    name: "Altos Bot"
+    emoji: "🤖"
+
+  groups:
+    alerts:
+      allowed_group_ids:
+        - -1001234567890
+        - -1009876543210
+      restricted_commands:
+        - eval
+        - shell
+      welcome_message: "👋 Welcome to the Altos alert channel!"
+
+  private:
+    allowed_users:
+      - 123456789  # Your user ID
+    require_start: true
+    commands:
+      - command: /status
+        description: Check Altos system status
+      - command: /agents
+        description: List active agents
+      - command: /logs
+        description: View recent logs
+
+automation:
+  triggers:
+    - type: message_match
+      pattern: "!/(\\w+)\\s*(.*)/i"
+      agent: regex-processor
+    - type: command
+      command: /start
+      action: send_welcome
+
+responses:
+  fallback:
+    message: "I didn't understand that. Type /help for available commands."
+  error:
+    message: "⚠️ An error occurred. The team has been notified."
+
+rate_limits:
+  per_user:
+    max: 10
+    window: 60  # seconds
+  per_group:
+    max: 30
+    window: 60
+
+monitoring:
+  enabled: true
+  log_all_messages: false
+  log_commands_only: true

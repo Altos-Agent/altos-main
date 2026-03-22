@@ -1,0 +1,133 @@
+# Discord Connector Configuration
+# Type: Reference example (not runtime config)
+# Docs: https://altos.ai/docs/connectors/discord
+#
+# NOTE: This is a reference configuration showing the full connector schema.
+# Runtime channel configs are stored in ~/.altos/config.json and use the
+# ChannelConfig interface defined in @altos/shared.
+
+connector:
+  type: discord
+  name: altos-discord-bot
+  enabled: true
+
+discord:
+  token: ${DISCORD_BOT_TOKEN}
+  intents:
+    - GUILDS
+    - GUILD_MESSAGES
+    - DIRECT_MESSAGES
+    - MESSAGE_CONTENT
+  partials:
+    - CHANNEL
+    - MESSAGE
+    - MEMBER
+
+settings:
+  default_prefix: "!"
+  mention_prefix: true
+  case_insensitive: false
+
+servers:
+  production:
+    id: "123456789012345678"
+    name: "Altos Workspace"
+
+    channels:
+      logs:
+        id: "111222333444555666"
+        name: "agent-logs"
+        webhook_enabled: true
+
+      commands:
+        id: "222333444555666777"
+        name: "bot-commands"
+        allowed_commands:
+          - status
+          - agents
+          - run
+          - logs
+
+      alerts:
+        id: "333444555666777888"
+        name: "alerts"
+        webhook_enabled: true
+        alert_types:
+          - agent_failure
+          - automation_error
+          - system_warning
+
+    roles:
+      admin:
+        id: "444555666777888999"
+        name: "Altos Admin"
+        permissions:
+          - manage_agents
+          - manage_automations
+          - view_logs
+          - execute_commands
+      developer:
+        id: "555666777888999000"
+        name: "Developer"
+        permissions:
+          - view_logs
+          - execute_commands
+      viewer:
+        id: "666777888999000111"
+        name: "Viewer"
+        permissions:
+          - view_logs
+
+slash_commands:
+  - name: status
+    description: Check Altos system status
+    options: []
+  - name: agents
+    description: List all agents and their status
+    options:
+      - name: filter
+        type: STRING
+        description: Filter by status (active/idle/error)
+        required: false
+  - name: logs
+    description: View recent logs
+    options:
+      - name: lines
+        type: INTEGER
+        description: Number of lines to show
+        required: false
+        min_value: 10
+        max_value: 100
+  - name: run
+    description: Run an agent manually
+    options:
+      - name: agent
+        type: STRING
+        description: Agent name or ID
+        required: true
+      - name: input
+        type: STRING
+        description: Input to provide to the agent
+        required: false
+
+automations:
+  triggers:
+    - type: message
+      channel_id: "222333444555666777"
+      patterns:
+        - "deploy"
+        - "release"
+        - "hotfix"
+      action:
+        agent: ci-monitor
+        input: "{message}"
+
+responses:
+  error_channel_unavailable: "That channel doesn't exist or I don't have access to it."
+  error_no_permissions: "I don't have permission to do that."
+  error_rate_limit: "You're doing that too fast! Please wait a moment."
+
+monitoring:
+  enabled: true
+  track_message_stats: true
+  log_dm_commands: true

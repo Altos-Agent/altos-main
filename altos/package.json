@@ -1,0 +1,16 @@
+{
+  "name": "altos",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "altos-cli",
+    "altos-web/altos-cli-web",
+    "altos-web/altos-web-main"
+  ],
+  "scripts": {
+    "build:shared": "cd shared && npm run build",
+    "build:cli": "cd altos-cli && npm run build",
+    "build:web": "cd altos-web/altos-cli-web && npm run build",
+    "build:web-main": "cd altos-web/altos-web-main && npm run build"
+  }
+}

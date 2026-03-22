@@ -1,0 +1,157 @@
+# GitHub Connector Configuration
+# Type: Reference example (not runtime config)
+# Docs: https://altos.ai/docs/connectors/github
+#
+# NOTE: This is a reference configuration showing the full connector schema.
+# Runtime channel configs are stored in ~/.altos/config.json and use the
+# ChannelConfig interface defined in @altos/shared.
+
+connector:
+  type: github
+  name: altos-github-app
+  enabled: true
+
+github:
+  app_id: ${GITHUB_APP_ID}
+  private_key: ${GITHUB_PRIVATE_KEY}
+  webhook_secret: ${GITHUB_WEBHOOK_SECRET}
+
+organization:
+  login: your-org  # Optional: restrict to specific org
+  default_permissions:
+    contents: read
+    pull_requests: write
+    issues: write
+    metadata: read
+
+repositories:
+  auto_register: false  # If true, automatically register new repos
+
+  monitored:
+    - owner: your-org
+      repo: altos-agent
+      branches:
+        - main
+        - develop
+      events:
+        - pull_request
+        - push
+        - issue_comment
+        - labels
+
+    - owner: your-org
+      repo: altos-web
+      branches:
+        - main
+      events:
+        - pull_request
+
+webhooks:
+  endpoint: /webhooks/github
+  content_type: json
+  insecure_ssl: false  # Set true only for local testing with ngrok
+
+pull_requests:
+  auto_review:
+    enabled: true
+    conditions:
+      - min_files_changed: 1
+        max_files_changed: 50
+      - exclude_label:
+          - "no-review"
+          - "wip"
+    actions:
+      - type: label
+        labels:
+          - "ai-review-pending"
+      - type: comment
+        template: |
+          🤖 AI review requested by Altos
+
+          | Category | Status |
+          |----------|--------|
+          | Files | {{files_changed}} |
+          | Additions | +{{lines_added}} |
+          | Deletions | -{{lines_deleted}} |
+
+          Review will begin shortly...
+
+  review_agent: code-reviewer
+  review_timeout: 300  # seconds
+
+  auto_merge:
+    enabled: false
+    conditions:
+      - require_approval: true
+        min_approvals: 2
+      - require_status_checks: true
+        status_checks:
+          - "ci/test"
+          - "ci/lint"
+    merge_method: squash
+
+issues:
+  auto_respond:
+    enabled: true
+    issue_opened:
+      - type: label
+        labels:
+          - "needs-triage"
+      - type: comment
+        template: |
+          Thanks for opening an issue! 
+          
+          A team member will review this {{issue_type}} shortly.
+
+    bug_report:
+      response_template: |
+        ### 🐛 Bug Report Acknowledged
+        
+        Thank you for reporting! I've added this to our triage queue.
+        
+        **Issue ID:** #{{issue_number}}
+        **Repository:** {{repo}}
+        **Reporter:** @{{author}}
+
+    feature_request:
+      response_template: |
+        ### 💡 Feature Request Received
+        
+        Thanks for the suggestion! Our team will evaluate this request.
+        
+        **Requested by:** @{{author}}
+
+labels:
+  auto_create:
+    - name: "ai-reviewed"
+      color: "7C3AED"
+      description: "Reviewed by Altos AI"
+    - name: "needs-refactor"
+      color: "F59E0B"
+      description: "Code needs refactoring attention"
+    - name: "security-issue"
+      color: "EF4444"
+      description: "Security sensitivity required"
+
+notifications:
+  slack_webhook: ${SLACK_WEBHOOK_URL}
+  channels:
+    - event: pull_request.merged
+      message: "✅ PR merged: {{repo}}#{{pr_number}} by @{{actor}}"
+    - event: pull_request.review_requested
+      message: "👀 Review requested: {{repo}}#{{pr_number}}"
+    - event: issue.closed
+      message: "📋 Issue closed: {{repo}}#{{issue_number}}"
+    - event: check_run.failed
+      message: "❌ CI failed: {{repo}}#{{check_run.name}}"
+
+automation:
+  triggers:
+    - type: pr_label
+      label: "deploy-preview"
+      action:
+        agent: preview-deployer
+    - type: commit_message
+      pattern: "^feat:|^fix:|^chore:"
+      action:
+        agent: changelog-updater
