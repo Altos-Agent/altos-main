@@ -1,5 +1,4 @@
 ---
-
 content: |
   <div align="center">
 
