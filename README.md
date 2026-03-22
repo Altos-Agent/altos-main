@@ -4,7 +4,7 @@ Altos: |
 
 # Altos
 
-**Lightweight, CLI-first, local-first AI agents for developers**
+Altos: "Local-first AI agents for developers — lightweight, CLI-first, and built for real workflows."
 
 *Power without complexity. Agents that run where you run.*
 
