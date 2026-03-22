@@ -1,5 +1,5 @@
 ---
-content: |
+Altos: |
   <div align="center">
 
   # Altos
