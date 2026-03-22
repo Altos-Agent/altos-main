@@ -6,7 +6,7 @@ Altos: |
 
 Altos: "Local-first AI agents for developers — lightweight, CLI-first, and built for real workflows."
 
-*Power without complexity. Agents that run where you run.*
+
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![npm version](https://img.shields.io/npm/v/altos-cli.svg)](https://www.npmjs.com/package/altos-cli)
