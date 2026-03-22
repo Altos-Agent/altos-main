@@ -1,18 +1,23 @@
 ---
 Altos: |
   <div align="center">
-
-  # Altos
-
-  **Lightweight, CLI-first, local-first AI agents for developers**
-
-  *Power without complexity. Agents that run where you run.*
-
-  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-  [![npm version](https://img.shields.io/npm/v/altos-cli.svg)](https://www.npmjs.com/package/altos-cli)
-  [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white)](https://discord.gg/altos)
-  [![Twitter](https://img.shields.io/badge/Twitter-Follow-1DA1F2?style=flat&logo=twitter&logoColor=white)](https://twitter.com/altosai)
-
+    <h1>Altos</h1>
+    <p><strong>Lightweight, CLI-first, local-first AI agents for developers</strong></p>
+    <p><em>Power without complexity. Agents that run where you run.</em></p>
+    <p>
+      <a href="https://opensource.org/licenses/MIT">
+        <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" />
+      </a>
+      <a href="https://www.npmjs.com/package/altos-cli">
+        <img src="https://img.shields.io/npm/v/altos-cli.svg" alt="npm version" />
+      </a>
+      <a href="https://discord.gg/altos">
+        <img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord" />
+      </a>
+      <a href="https://twitter.com/altosai">
+        <img src="https://img.shields.io/badge/Twitter-Follow-1DA1F2?style=flat&logo=twitter&logoColor=white" alt="Twitter" />
+      </a>
+    </p>
   </div>
 ---
 
