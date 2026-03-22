@@ -1,19 +1,5 @@
 ---
-Altos: |
-<div align="center">
 
-# Altos
-
-Altos: "Local-first AI agents for developers — lightweight, CLI-first, and built for real workflows."
-
-
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![npm version](https://img.shields.io/npm/v/altos-cli.svg)](https://www.npmjs.com/package/altos-cli)
-[![Discord](https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white)](https://discord.gg/altos)
-[![Twitter](https://img.shields.io/badge/Twitter-Follow-1DA1F2?style=flat&logo=twitter&logoColor=white)](https://twitter.com/altosai)
-
-</div>
 ---
 
 ## What is Altos?
