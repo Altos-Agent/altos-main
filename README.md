@@ -1,19 +1,18 @@
 ---
-Altos: |
-  <div align="center">
+<div align="center">
 
-  # Altos
+# Altos
 
-  **Lightweight, CLI-first, local-first AI agents for developers**
+**Lightweight, CLI-first, local-first AI agents for developers**
 
-  *Power without complexity. Agents that run where you run.*
+*Power without complexity. Agents that run where you run.*
 
-  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-  [![npm version](https://img.shields.io/npm/v/altos-cli.svg)](https://www.npmjs.com/package/altos-cli)
-  [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white)](https://discord.gg/altos)
-  [![Twitter](https://img.shields.io/badge/Twitter-Follow-1DA1F2?style=flat&logo=twitter&logoColor=white)](https://twitter.com/altosai)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://img.shields.io/npm/v/altos-cli.svg)](https://www.npmjs.com/package/altos-cli)
+[![Discord](https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white)](https://discord.gg/altos)
+[![Twitter](https://img.shields.io/badge/Twitter-Follow-1DA1F2?style=flat&logo=twitter&logoColor=white)](https://twitter.com/altosai)
 
-  </div>
+</div>
 ---
 
 ## What is Altos?
